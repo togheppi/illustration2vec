@@ -6,7 +6,7 @@ from scipy.ndimage import zoom
 from skimage.transform import resize
 from chainer import Variable
 from chainer.functions import average_pooling_2d, sigmoid
-from chainer.functions.caffe import CaffeFunction
+from chainer.links.caffe import CaffeFunction
 
 
 class ChainerI2V(Illustration2VecBase):
@@ -47,7 +47,7 @@ class ChainerI2V(Illustration2VecBase):
         input_ -= self.mean  # subtract mean
         input_ = input_.transpose((0, 3, 1, 2))  # (N, H, W, C) -> (N, C, H, W)
         x = Variable(input_)
-        y, = self.net(inputs={'data': x}, outputs=[layername], train=False)
+        y, = self.net(inputs={'data': x}, outputs=[layername])
         return y
 
     def _extract(self, inputs, layername):
